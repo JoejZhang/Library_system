@@ -64,15 +64,20 @@ View_StudentBookName(zjz_Student.Sname,zjz_Book.Bname,zjz_Admin.Aname, BSlendtim
 ![](https://github.com/JoejZhang/Library_system/blob/master/image/view.png)
 
 ### 安全性（用户类别和权限）设计和实现说明
-登录或注册的时候用一个专门用于登录注册的数据库用户（account_library），用于查看或者更新学生登录信息表和管理员登录信息表，还有查看学生表。用于检验用户是否能登录成功，或创建用户。
-学生登录信息表和管理员登录信息表用于保存所有的账户和密码。
-有两个数据库用户（student_library，admin_library）分别用于学生和图书管理员用户登录后，用于连接数据库。学生使用student用户，只拥有查看学生表、图书表、借书还书记录表的权限，管理员使用admin用户拥有查看管理员表、学生表、图书表、借书还书记录表的权限，还有更新借书还书记录表的权限。
+    登录或注册的时候用一个专门用于登录注册的数据库用户（account_library），用于查看或者更新学生登录信息表和管理员登录信息表，还有查看学生表。用于检验用户是否能登录成功，或创建用户。
+    学生登录信息表和管理员登录信息表用于保存所有的账户和密码。
+    有两个数据库用户（student_library，admin_library）分别用于学生和图书管理员用户登录后，用于连接数据库。
+    学生使用student用户，只拥有查看学生表、图书表、借书还书记录表的权限.
+    管理员使用admin用户拥有查看管理员表、学生表、图书表、借书还书记录表的权限，还有更新借书还书记录表的权限。
 
 ### 完整性（主、外码和用户自定义的完整性约束）设计和实现说明。
+
+MySql使用触发器完成用户自定义的完整性约束
 
 1、学生表（ 学号，学生姓名，性别，年龄，学院）
 主码为学号，学生的年龄大于0,性别为男或女，姓名不为空
 
+```
 create  trigger zjz_Student_tri
   After insert on zjz_Student
   for each row
@@ -80,11 +85,12 @@ create  trigger zjz_Student_tri
   if ((new.Ssex<>'男' && new.Ssex <>'女')||new.Sage <=0  )then INSERT into zjz_student VALUES('error');
   end if;
   end;
-  
+```
 
 2、图书表 （图书编号，图书名，图书总数，可借数目）
 主码为图书编号，图书总数大于0 可借数目大于等于0,可借数目小于等于可借总数，图书名不为空
 
+```
 create  trigger zjz_Book_tri_insert
   After insert on zjz_Book
   for each row
@@ -92,10 +98,12 @@ create  trigger zjz_Book_tri_insert
   if (new.BAllCount <= 0 || new.BlendCount <0 ||new.BlendCount > new.BAllCount )then INSERT into zjz_Book VALUES('error');
   end if;
   end;
+```
 
 3、图书管理员表（管理员编号，管理员姓名，性别，年龄）
 主码为图书管理员编号，管理员年龄大于0,性别为男或女，姓名不为空
 
+```
 create  trigger zjz_Admin_tri
   After insert on zjz_Admin
   for each row
@@ -103,10 +111,12 @@ create  trigger zjz_Admin_tri
   if ((new.Asex<>'男' && new.Asex <>'女')||new.Aage <=0  )then INSERT into zjz_Admin VALUES('error');
   end if;
   end;
+```
 
 4、学生借还信息表（学号，图书编号，管理员编号，借书时间，归还时间，借书数目） 
 主码为学号，图书编号，管理员编号，借书时间，归还时间，学号是外码，参照学生表，图书编号是外码，参照图书表，管理员编号是外码，参照图书管理员表。借书数目>0
 
+```
 create  trigger zjz_BS_tri
   After insert on zjz_bs
   for each row
@@ -114,6 +124,7 @@ create  trigger zjz_BS_tri
   if (new.BScount <=0  )then INSERT into zjz_BS VALUES('error');
   end if;
   end;
+```
 
 5、学生登录信息表（学号（作为账号），密码）
 主码为学号，学号为外码，参照学生表
