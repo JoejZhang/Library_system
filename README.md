@@ -6,35 +6,35 @@
 学习简单SQL语言、学习使用JDBC对Java和数据库的连接等等
 
 ### 功能模块图
-![](https://github.com/JoejZhang/Library_system/blob/master/image/gongneng.png)
+![功能模块图](https://github.com/JoejZhang/Library_system/blob/master/image/gongneng.png)
 
 ### 完整E-R图
-![](https://github.com/JoejZhang/Library_system/blob/master/image/er.jpg)
+![完整E-R图](https://github.com/JoejZhang/Library_system/blob/master/image/er.jpg)
 
 ### 关系模型
 学生表（ 学号，学生姓名，性别，年龄，学院）
 
-![](https://github.com/JoejZhang/Library_system/blob/master/image/student.png)
+![学生表](https://github.com/JoejZhang/Library_system/blob/master/image/student.png)
 
 图书表 （图书编号，图书名，图书总数，可借数目）
 
-![](https://github.com/JoejZhang/Library_system/blob/master/image/book.png)
+![图书表](https://github.com/JoejZhang/Library_system/blob/master/image/book.png)
 
 图书管理员（管理员编号，管理员姓名，性别，年龄）
 
-![](https://github.com/JoejZhang/Library_system/blob/master/image/admin.png)
+![图书管理员](https://github.com/JoejZhang/Library_system/blob/master/image/admin.png)
 
 学生借还信息表（学号，图书编号，管理员编号，借书时间，归还时间，借书数目） 
 
-![](https://github.com/JoejZhang/Library_system/blob/master/image/lend.png)
+![学生借还信息表](https://github.com/JoejZhang/Library_system/blob/master/image/lend.png)
 
 学生登录信息表（学号（作为账号），密码）
 
-![](https://github.com/JoejZhang/Library_system/blob/master/image/login_student.png)
+![学生登录信息表](https://github.com/JoejZhang/Library_system/blob/master/image/login_student.png)
 
 管理员登录信息表（管理员编号(作为账号)，密码）
 
-![](https://github.com/JoejZhang/Library_system/blob/master/image/login_admin.png)
+![管理员登录信息表](https://github.com/JoejZhang/Library_system/blob/master/image/login_admin.png)
 
 zjz_Student（ Sno，Sname，Ssex，Sage,Scollege,Sno→Sname，Sno→Ssex, Sno→Sage, Sno→Scollege）
 学生表所有的非主属性完全依赖于码，没有主属性部分或传递依赖于码，所以属于BCNF。
@@ -59,17 +59,17 @@ zjz_Admin_login（Ano，Apass,Ano→Apass）；
 学生已借图书（学生名和图书名）视图
 View_StudentBookName(zjz_Student.Sname,zjz_Book.Bname,zjz_Admin.Aname, BSlendtime，BSbacktime,BScount)
 
-![](https://github.com/JoejZhang/Library_system/blob/master/image/view_sql.png)
+![视图代码](https://github.com/JoejZhang/Library_system/blob/master/image/view_sql.png)
 
-![](https://github.com/JoejZhang/Library_system/blob/master/image/view.png)
+![视图](https://github.com/JoejZhang/Library_system/blob/master/image/view.png)
 
 ### 安全性（用户类别和权限）设计和实现说明
 
-&ensp;登录或注册的时候用一个专门用于登录注册的数据库用户（account_library），用于查看或者更新学生登录信息表和管理员登录信息表，还有查看学生表。用于检验用户是否能登录成功，或创建用户。
-学生登录信息表和管理员登录信息表用于保存所有的账户和密码。
-&ensp;有两个数据库用户（student_library，admin_library）分别用于学生和图书管理员用户登录后，用于连接数据库。
-&ensp;学生使用student用户，只拥有查看学生表、图书表、借书还书记录表的权限。
-&ensp;管理员使用admin用户拥有查看管理员表、学生表、图书表、借书还书记录表的权限，还有更新借书还书记录表的权限。
+　　登录或注册的时候用一个专门用于登录注册的数据库用户（account_library），用于查看或者更新学生登录信息表和管理员登录信息表，还有查看学生表。用于检验用户是否能登录成功，或创建用户。
+　　学生登录信息表和管理员登录信息表用于保存所有的账户和密码。
+　　有两个数据库用户（student_library，admin_library）分别用于学生和图书管理员用户登录后，用于连接数据库。
+　　学生使用student用户，只拥有查看学生表、图书表、借书还书记录表的权限。
+　　管理员使用admin用户拥有查看管理员表、学生表、图书表、借书还书记录表的权限，还有更新借书还书记录表的权限。
 
 
 ### 完整性（主、外码和用户自定义的完整性约束）设计和实现说明。
